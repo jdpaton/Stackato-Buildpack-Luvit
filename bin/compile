@@ -9,15 +9,37 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 mkdir -p $BUILD_DIR $CACHE_DIR
 
+if [ ! -z "${DEBUG}" ];then
+  env
+  ls -lash ${BUILD_DIR}
+  ls -lash ${CACHE_DIR}
+fi
+
 LOG_PREFIX="---->"
 
 cd ${BUILD_DIR}
 mkdir -p ${BUILD_DIR}/bin
 
 function get_luvit_binary {
-    wget -N http://luvit.io/dist/latest/ubuntu-latest/x86_64/luvit.tar.gz
+    echo "${LOG_PREFIX} Downloading luvit.io latest binary package"
+    cd ${CACHE_DIR}
+    wget -N --quiet http://luvit.io/dist/latest/ubuntu-latest/x86_64/luvit.tar.gz
+
+    echo "${LOG_PREFIX} extracting"
     tar xvzf luvit.tar.gz -C ${BUILD_DIR}
 }
 
+function cheat_on_procfile {
+
+    if [[ ! -f "${HOME}/Procfile" && -f "${HOME}/stackato.yml" ]]; then
+        echo "${LOG_PREFIX} Writing out Procfile"
+        local web_proc=$(grep "processes:" -A1 ${HOME}/stackato.yml | tail -n1)
+        echo ${web_proc} >> ${HOME}/Procfile
+    fi
+}
+
+
 get_luvit_binary
+cheat_on_procfile
+
 echo "${LOG_PREFIX} Done with compile"

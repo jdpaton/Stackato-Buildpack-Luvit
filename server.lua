@@ -1,5 +1,5 @@
 local http = require("http")
-local os = require("os")
+local port = process.env.port or 3000
 
 http.createServer(function (req, res)
   local body = "Hello world\n"
@@ -8,6 +8,6 @@ http.createServer(function (req, res)
     ["Content-Length"] = #body
   })
   res:finish(body)
-end):listen(os.getenv("PORT"))
+end):listen(port)
 
 print("Server listening...")

@@ -7,6 +7,8 @@ framework:
 
 env:
     BUILDPACK_URL: https://github.com/jdpaton/Stackato-Buildpack-Luvit
+    PATH: $HOME/luvit/bin:$PATH
+    DEBUG: true
 
 processes:
-  web: ./bin/luvit server.lua
+  web: luvit server.lua
