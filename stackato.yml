@@ -1,0 +1,12 @@
+name: luvit-example
+
+mem: 128
+
+framework:
+  type: buildpack
+
+env:
+    BUILDPACK_URL: https://github.com/jdpaton/Stackato-Buildpack-Luvit
+
+processes:
+  web: ./bin/luvit server.lua

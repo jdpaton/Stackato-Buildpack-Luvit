@@ -1,0 +1,5 @@
+if [ -f $1/*.lua ]; then
+  echo "Luvit.io" && exit 0
+else
+  echo "no" && exit 1
+fi
